@@ -11,18 +11,18 @@ stages:
       size: 1581
     params:
       params.yaml:
-        prepare.seed: 20190613
+        prepare.seed: 201906132
         prepare.split: 0.2
     outs:
     - path: data/prepared
-      md5: 52fb0155b5788696fa188a9b7fa53a68.dir
+      md5: 3ee2cb061116d520ea34565c4650be22.dir
       size: 23861319
       nfiles: 2
   featurize:
     cmd: python src/featurization.py data/prepared data/features
     deps:
     - path: data/prepared
-      md5: 52fb0155b5788696fa188a9b7fa53a68.dir
+      md5: 3ee2cb061116d520ea34565c4650be22.dir
       size: 23861319
       nfiles: 2
     - path: src/featurization.py
@@ -31,18 +31,18 @@ stages:
     params:
       params.yaml:
         featurize.max_features: 3000
-        featurize.ngrams: 3
+        featurize.ngrams: 4
     outs:
     - path: data/features
-      md5: ef77f223db121f202ed03eae72f74c81.dir
-      size: 13420968
+      md5: 105862fc7d6c26eac80010748ab894aa.dir
+      size: 13658724
       nfiles: 2
   train:
     cmd: python src/train.py data/features model.pkl
     deps:
     - path: data/features
-      md5: ef77f223db121f202ed03eae72f74c81.dir
-      size: 13420968
+      md5: 105862fc7d6c26eac80010748ab894aa.dir
+      size: 13658724
       nfiles: 2
     - path: src/train.py
       md5: 9ab95496b29b6ea3418bbf20b9fe3473
@@ -54,28 +54,28 @@ stages:
         train.seed: 20170428
     outs:
     - path: model.pkl
-      md5: 5120854fde52daabd668aa89a2bce960
-      size: 2231239
+      md5: 0c4eac97581ac0eb0d9f664d9972938b
+      size: 2348056
   evaluate:
     cmd: python src/evaluate.py model.pkl data/features scores.json prc.json roc.json
     deps:
     - path: data/features
-      md5: ef77f223db121f202ed03eae72f74c81.dir
-      size: 13420968
+      md5: 105862fc7d6c26eac80010748ab894aa.dir
+      size: 13658724
       nfiles: 2
     - path: model.pkl
-      md5: 5120854fde52daabd668aa89a2bce960
-      size: 2231239
+      md5: 0c4eac97581ac0eb0d9f664d9972938b
+      size: 2348056
     - path: src/evaluate.py
       md5: fb7b5209c9237ea6cf63550e5fe9b817
       size: 1943
     outs:
     - path: prc.json
-      md5: b064aca57cec9ef867dbe8fb5638a88c
-      size: 151817
+      md5: e0dac59e4540e4ed31759695c6061e97
+      size: 136824
     - path: roc.json
-      md5: 8f144606c14d88ef317524d3e60b7ec0
-      size: 56714
+      md5: 3a4175f2711c182c5949ecb8b1054407
+      size: 46870
     - path: scores.json
-      md5: f4d1aedb684b0c43ff3610424b47dab7
-      size: 74
+      md5: 772952d5e673b856059dcef45ad7a50a
+      size: 73
